@@ -1,0 +1,83 @@
+# -----------------------------------------------------------------------------
+# @brief  : Root cmake file.
+# @author : Enrico Fraccaroli
+# @create : 23/03/2021
+# @update : 23/03/2021
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Set the minimum CMake version, the project name and default build type.
+# -----------------------------------------------------------------------------
+cmake_minimum_required(VERSION 3.1...3.18)
+
+# Set the project name.
+project(approximath)
+
+# Set the default build type to Debug.
+set(CMAKE_BUILD_TYPE Debug)
+
+set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/approximath/)
+
+# -----------------------------------------------------------------------------
+# Documentation target.
+# -----------------------------------------------------------------------------
+add_subdirectory(doc)
+
+# -----------------------------------------------------------------------------
+# Set the compilation flags.
+# -----------------------------------------------------------------------------
+# Set C++ Standard.
+set(CMAKE_CXX_STANDARD 17)
+
+# Set the actual flags.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic-errors")
+
+if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+
+    message("Disabling optimizations.")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+
+elseif (CMAKE_BUILD_TYPE EQUAL "RELEASE")
+
+    message("Enabling optimizations.")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+
+endif (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+
+# -----------------------------------------------------------------------------
+# Inlcude header directories and set the library.
+# -----------------------------------------------------------------------------
+include_directories(
+        # Include project directories.
+        ${CMAKE_SOURCE_DIR}/inc/
+        # Inlcude directories coming from external libraries.
+        # e.g., ${EIGEN_INCLUDE_DIRS}
+)
+
+# -----------------------------------------------------------------------------
+# Add the C++ Executable.
+# -----------------------------------------------------------------------------
+add_library(approximath SHARED
+    ${CMAKE_SOURCE_DIR}/src/approximath.cpp
+)
+
+# -----------------------------------------------------------------------------
+# Add linked libraries (if required).
+# -----------------------------------------------------------------------------
+#target_link_libraries(
+#    approximath
+#    Eigen3::Eigen
+#)
+
+# -----------------------------------------------------------------------------
+# Add tests.
+# -----------------------------------------------------------------------------
+# CMake has support for adding tests to a project:
+enable_testing()
+# Add the subdirectory containing the tests (which imports also their target).
+add_subdirectory(test)
