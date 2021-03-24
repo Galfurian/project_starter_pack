@@ -53,21 +53,23 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
 endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 # -----------------------------------------------------------------------------
-# Inlcude header directories and set the library.
+# Add the C++ Executable.
 # -----------------------------------------------------------------------------
-include_directories(
-        # Include project directories.
-        ${CMAKE_SOURCE_DIR}/inc/
-        # Inlcude directories coming from external libraries.
-        # e.g., ${EIGEN_INCLUDE_DIRS}
+add_executable(
+    approximath
+    ${CMAKE_SOURCE_DIR}/src/approximath.cpp
+    ${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 
 # -----------------------------------------------------------------------------
-# Add the C++ Executable.
+# Inlcude header directories and set the library.
 # -----------------------------------------------------------------------------
-add_executable(approximath
-    ${CMAKE_SOURCE_DIR}/src/approximath.cpp
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
+target_include_directories(
+    approximath PRIVATE
+    # Include project directories.
+    ${CMAKE_SOURCE_DIR}/inc/
+    # Inlcude directories coming from external libraries.
+    # e.g., ${EIGEN_INCLUDE_DIRS}
 )
 
 # -----------------------------------------------------------------------------

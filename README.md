@@ -30,3 +30,9 @@ In this repository we apply different technologies such as:
 * [Massimiliano Rossi](https://github.com/maxrossi91)
 
 Specal thanks to the **room 1.71** group at the University of Verona.
+
+# Placeholder
+
+List of useful links that should be included inside the documentation:
+
+ * https://leimao.github.io/blog/CMake-Public-Private-Interface/
