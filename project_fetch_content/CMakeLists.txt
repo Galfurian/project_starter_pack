@@ -19,8 +19,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
 endif()
 
-set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/approximath/)
-
 # -----------------------------------------------------------------------------
 # External projects.
 # -----------------------------------------------------------------------------
@@ -41,14 +39,8 @@ if (NOT Eigen3_FOUND)
         GIT_SHALLOW    TRUE
         GIT_PROGRESS   TRUE
     )
-    set(EIGEN_BUILD_DOC       OFF)
-    set(BUILD_TESTING         OFF)
-    set(EIGEN_BUILD_PKGCONFIG OFF)
 
     FetchContent_MakeAvailable(eigen)
-
-    message(STATUS "eigen_SOURCE_DIR : ${eigen_SOURCE_DIR}")
-    message(STATUS "eigen_BINARY_DIR : ${eigen_BINARY_DIR}")
     
 else(NOT Eigen3_FOUND)
     
@@ -102,7 +94,7 @@ add_executable(
 target_include_directories(
     approximath PRIVATE
     # Include project directories.
-    ${CMAKE_SOURCE_DIR}/inc/
+    ${CMAKE_SOURCE_DIR}/include/
     # Inlcude directories coming from external libraries.
 )
 

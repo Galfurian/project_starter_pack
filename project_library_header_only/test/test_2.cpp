@@ -1,7 +1,7 @@
 /// @file test_2.cpp
 /// @author Enrico Fraccaroli (enry.frak@gmail.com)
 
-#include "approximath.hpp"
+#include "approximath/approximath.hpp"
 
 #include <iostream>
 #include <fstream>

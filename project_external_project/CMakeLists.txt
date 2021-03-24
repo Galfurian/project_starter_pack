@@ -19,8 +19,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
 endif()
 
-set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/approximath/)
-
 # -----------------------------------------------------------------------------
 # External projects.
 # -----------------------------------------------------------------------------
@@ -28,7 +26,7 @@ set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/approximath/)
 include(ExternalProject)
 
 # First try to find the one installed on the system.
-find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 if (Eigen3_FOUND)
 
@@ -39,30 +37,21 @@ else(Eigen3_FOUND)
     message(STATUS "Eigen3 not found. Forcing to build own copy...")
 
     # Set the build directory and the output directory.
-    set(Eigen3_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Eigen3")
-    set(Eigen3_BUILD_PATH  "${CMAKE_BINARY_DIR}/Eigen3-build/")
+    set(eigen_OUTPUT_PATH "${CMAKE_BINARY_DIR}/eigen")
+    set(eigen_BUILD_PATH  "${CMAKE_BINARY_DIR}/eigen-build/")
 
-    # If the build directory already exists, we don't need to compile it again.
-    if (EXISTS "${Eigen3_BUILD_PATH}")
+    message(STATUS "Downloading Eigen3 and building...")
+    # Add an external project, this example is using eigen.
+    ExternalProject_Add(eigen
+        PREFIX         "${eigen_BUILD_PATH}"
+        GIT_REPOSITORY "https://gitlab.com/libeigen/eigen.git"
+        GIT_TAG        3.4
+        INSTALL_DIR    ${eigen_OUTPUT_PATH}
+        CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+    )
 
-        message(STATUS "Found Eigen3 build directory, Won't rebuild it.")
-
-    else (EXISTS "${Eigen3_BUILD_PATH}")
-
-        message(STATUS "Downloading Eigen3 and building...")
-        # Add an external project, this example is using eigen.
-        ExternalProject_Add(Eigen3
-            PREFIX         "${Eigen3_BUILD_PATH}"
-            GIT_REPOSITORY "https://gitlab.com/libeigen/eigen.git"
-            GIT_TAG        3.4
-            INSTALL_DIR    ${Eigen3_OUTPUT_PATH}
-            CMAKE_ARGS     -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-        )
-
-    endif(EXISTS "${Eigen3_BUILD_PATH}")
-    
     # Set Eigen3 include directory.
-    set(Eigen3_INCLUDE_DIR "${Eigen3_OUTPUT_PATH}/include/eigen3")
+    set(EIGEN3_INCLUDE_DIR "${eigen_OUTPUT_PATH}/include/eigen3")
 
 endif(Eigen3_FOUND)
 
@@ -106,10 +95,11 @@ add_executable(
     ${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 
-add_dependencies(
-    approximath
-    Eigen3
-)
+# If the desired library is not installed system-wide, add the dependency
+# w.r.t. the external source.
+if (NOT Eigen3_FOUND)
+    add_dependencies(approximath eigen)
+endif(NOT Eigen3_FOUND)
 
 # -----------------------------------------------------------------------------
 # Inlcude header directories and set the library.
@@ -117,9 +107,9 @@ add_dependencies(
 target_include_directories(
     approximath PRIVATE
     # Include project directories.
-    ${CMAKE_SOURCE_DIR}/inc/
+    ${CMAKE_SOURCE_DIR}/include/
     # Inlcude directories coming from external libraries.
-    ${Eigen3_INCLUDE_DIR}
+    ${EIGEN3_INCLUDE_DIR}
 )
 
 # -----------------------------------------------------------------------------

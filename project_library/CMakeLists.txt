@@ -19,8 +19,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
 endif()
 
-set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/approximath/)
-
 # -----------------------------------------------------------------------------
 # Documentation target.
 # -----------------------------------------------------------------------------
@@ -66,7 +64,7 @@ add_library(
 target_include_directories(
     approximath PUBLIC
     # Include project directories.
-    ${CMAKE_SOURCE_DIR}/inc/
+    ${CMAKE_SOURCE_DIR}/include/
     # Inlcude directories coming from external libraries.
     # e.g., ${EIGEN_INCLUDE_DIRS}
 )

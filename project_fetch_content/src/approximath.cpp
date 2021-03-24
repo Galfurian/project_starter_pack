@@ -7,7 +7,7 @@
 /// @copyright Copyright (c) 2021
 /// 
 
-#include "approximath.hpp"
+#include "approximath/approximath.hpp"
 
 namespace approximath
 {
