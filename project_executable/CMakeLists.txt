@@ -40,14 +40,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-    message("Disabling optimizations.")
+    message(STATUS "Disabling optimizations.")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 
 elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
 
-    message("Enabling optimizations.")
+    message(STATUS "Enabling optimizations.")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
