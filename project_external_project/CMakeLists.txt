@@ -27,7 +27,9 @@ set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/approximath/)
 # We need this in order to import external projects.
 include(ExternalProject)
 
-#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+# First try to find the one installed on the system.
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+
 if (Eigen3_FOUND)
 
     message(STATUS "Eigen3 found. No need to build our own copy...")
